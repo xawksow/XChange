@@ -517,8 +517,11 @@ public final class CryptsyCurrencyUtils {
    * @return int representation of marketId
    */
   public static int convertToMarketId(CurrencyPair currencyPair) {
-
-    return currencyPairs_MarketIds.get(currencyPair);
+    Integer out = currencyPairs_MarketIds.get(currencyPair);
+    if(out == null){
+    	return currencyPairs_MarketIds.get(new CurrencyPair(currencyPair.counterSymbol, currencyPair.baseSymbol));
+    }
+    return out;
   }
 
   /**
