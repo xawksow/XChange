@@ -1,6 +1,7 @@
 package com.xeiam.xchange.btce.v3.service.polling;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -59,8 +60,9 @@ public class BTCETradeServiceRaw extends BTCEBasePollingService {
   public BTCEPlaceOrderResult placeBTCEOrder(BTCEOrder order) throws IOException {
 
     String pair = order.getPair().toLowerCase();
-    BTCEPlaceOrderReturn ret = btce.Trade(apiKey, signatureCreator, exchange.getNonceFactory(), pair, order.getType(), order.getRate(),
-        order.getAmount());
+    DecimalFormat format = new DecimalFormat("#.########");
+    BTCEPlaceOrderReturn ret = btce.Trade(apiKey, signatureCreator, exchange.getNonceFactory(), pair, order.getType(), format.format(order.getRate()),
+        format.format(order.getAmount()));
     checkResult(ret);
     return ret.getReturnValue();
   }

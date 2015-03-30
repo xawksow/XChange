@@ -14,8 +14,8 @@ public class BitfinexDemoUtils {
 
     ExchangeSpecification bfxSpec = bfx.getDefaultExchangeSpecification();
 
-    bfxSpec.setApiKey("");
-    bfxSpec.setSecretKey("");
+    bfxSpec.setApiKey("fqnmXJypz1WV5qGdxf9qPLEqYuhJ1l0BOVzJOBgz5y9");
+    bfxSpec.setSecretKey("7LaUvSp90XOoYkDM9mOf3vr7iwwhFuTcqfQs0VQxDdm");
 
     bfx.applySpecification(bfxSpec);
 

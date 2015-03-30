@@ -72,7 +72,7 @@ public interface BTCEAuthenticated extends BTCE {
   @FormParam("method")
   BTCEPlaceOrderReturn Trade(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("pair") String pair, @FormParam("type") BTCEOrder.Type type,
-      @FormParam("rate") BigDecimal rate, @FormParam("amount") BigDecimal amount) throws IOException;
+      @FormParam("rate") String rate, @FormParam("amount") String amount) throws IOException;
 
   @POST
   @Path("tapi")
