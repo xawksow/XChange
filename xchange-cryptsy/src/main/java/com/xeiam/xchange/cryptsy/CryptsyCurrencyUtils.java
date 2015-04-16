@@ -527,16 +527,25 @@ public final class CryptsyCurrencyUtils {
 		if (currencyPair.baseSymbol.equals("DRK") && currencyPair.counterSymbol.equals("USD")) {
 			return 213;
 		}
-		if(currencyPair.counterSymbol.equals("DRK")) {
+		if ((currencyPair.baseSymbol.equals("USD") && currencyPair.counterSymbol.equals("XRP"))
+				|| (currencyPair.baseSymbol.equals("XRP") && currencyPair.counterSymbol.equals("USD")))
+
+		{
+			return 442;
+		}
+		if (currencyPair.counterSymbol.equals("DRK")) {
 			currencyPair = new CurrencyPair(currencyPair.baseSymbol, "DASH");
 		}
-		if(currencyPair.baseSymbol.equals("DRK")) {
+		if (currencyPair.baseSymbol.equals("DRK")) {
 			currencyPair = new CurrencyPair("DASH", currencyPair.counterSymbol);
 		}
 		Integer out = currencyPairs_MarketIds.get(currencyPair);
 		if (out == null) {
-			return currencyPairs_MarketIds.get(new CurrencyPair(
-					currencyPair.counterSymbol, currencyPair.baseSymbol));
+			out = currencyPairs_MarketIds.get(new CurrencyPair(currencyPair.counterSymbol, currencyPair.baseSymbol));
+			if (out == null) {
+				System.out.println("Cryptsy doesn't have a market for " + currencyPair + ".");
+				throw new RuntimeException("Cryptsy doesn't have a market for " + currencyPair + ".");
+			}
 		}
 		return out;
 	}
@@ -552,7 +561,6 @@ public final class CryptsyCurrencyUtils {
 
 		CurrencyPair currencyPairs = marketIds_CurrencyPairs.get(marketId);
 
-		return (currencyPairs == null ? new CurrencyPair("null", "null")
-				: currencyPairs);
+		return (currencyPairs == null ? new CurrencyPair("null", "null") : currencyPairs);
 	}
 }

@@ -1,5 +1,6 @@
 package com.xeiam.xchange.dto.marketdata;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -9,173 +10,186 @@ import com.xeiam.xchange.dto.Order.OrderType;
 /**
  * Data object representing a Trade
  */
-public class Trade {
+public class Trade implements Serializable, Comparable<Trade> {
 
-  /**
-   * Did this trade result from the execution of a bid or a ask?
-   */
-  protected final OrderType type;
+	/**
+	 * Did this trade result from the execution of a bid or a ask?
+	 */
+	protected final OrderType type;
 
-  /**
-   * Amount that was traded
-   */
-  protected final BigDecimal tradableAmount;
+	/**
+	 * Amount that was traded
+	 */
+	protected final BigDecimal tradableAmount;
 
-  /**
-   * The currency pair
-   */
-  protected final CurrencyPair currencyPair;
+	/**
+	 * The currency pair
+	 */
+	protected final CurrencyPair currencyPair;
 
-  /**
-   * The price
-   */
-  protected final BigDecimal price;
+	/**
+	 * The price
+	 */
+	protected final BigDecimal price;
 
-  /**
-   * The timestamp of the trade
-   */
-  protected final Date timestamp;
+	/**
+	 * The timestamp of the trade
+	 */
+	protected final Date timestamp;
 
-  /**
-   * The trade id
-   */
-  protected final String id;
+	/**
+	 * The trade id
+	 */
+	protected final String id;
 
-  /**
-   * This constructor is called to create a public Trade object in
-   * {@link com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService#getTrades(com.xeiam.xchange.currency.CurrencyPair, Object...)}
-   * implementations) since it's missing the orderId and fee parameters.
-   *
-   * @param type The trade type (BID side or ASK side)
-   * @param tradableAmount The depth of this trade
-   * @param tradableIdentifier The exchange identifier (e.g. "BTC/USD")
-   * @param transactionCurrency The transaction currency (e.g. USD in BTC/USD)
-   * @param price The price (either the bid or the ask)
-   * @param timestamp The timestamp when the order was placed. Exchange matching is usually price first then timestamp asc to clear older orders
-   * @param id The id of the trade
-   */
-  public Trade(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair, BigDecimal price, Date timestamp, String id) {
+	/**
+	 * This constructor is called to create a public Trade object in
+	 * {@link com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService#getTrades(com.xeiam.xchange.currency.CurrencyPair, Object...)}
+	 * implementations) since it's missing the orderId and fee parameters.
+	 *
+	 * @param type
+	 *            The trade type (BID side or ASK side)
+	 * @param tradableAmount
+	 *            The depth of this trade
+	 * @param tradableIdentifier
+	 *            The exchange identifier (e.g. "BTC/USD")
+	 * @param transactionCurrency
+	 *            The transaction currency (e.g. USD in BTC/USD)
+	 * @param price
+	 *            The price (either the bid or the ask)
+	 * @param timestamp
+	 *            The timestamp when the order was placed. Exchange matching is
+	 *            usually price first then timestamp asc to clear older orders
+	 * @param id
+	 *            The id of the trade
+	 */
+	public Trade(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair, BigDecimal price, Date timestamp, String id) {
 
-    this.type = type;
-    this.tradableAmount = tradableAmount;
-    this.currencyPair = currencyPair;
-    this.price = price;
-    this.timestamp = timestamp;
-    this.id = id;
-  }
+		this.type = type;
+		this.tradableAmount = tradableAmount;
+		this.currencyPair = currencyPair;
+		this.price = price;
+		this.timestamp = timestamp;
+		this.id = id;
+	}
 
-  public OrderType getType() {
+	public OrderType getType() {
 
-    return type;
-  }
+		return type;
+	}
 
-  public BigDecimal getTradableAmount() {
+	public BigDecimal getTradableAmount() {
 
-    return tradableAmount;
-  }
+		return tradableAmount;
+	}
 
-  public CurrencyPair getCurrencyPair() {
+	public CurrencyPair getCurrencyPair() {
 
-    return currencyPair;
-  }
+		return currencyPair;
+	}
 
-  public BigDecimal getPrice() {
+	public BigDecimal getPrice() {
 
-    return price;
-  }
+		return price;
+	}
 
-  public Date getTimestamp() {
+	public Date getTimestamp() {
 
-    return timestamp;
-  }
+		return timestamp;
+	}
 
-  public String getId() {
+	public String getId() {
 
-    return id;
-  }
+		return id;
+	}
 
-  @Override
-  public boolean equals(Object o) {
+	@Override
+	public boolean equals(Object o) {
 
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    return this.id.equals(((Trade) o).getId());
-  }
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		return this.id.equals(((Trade) o).getId());
+	}
 
-  @Override
-  public int hashCode() {
+	@Override
+	public int hashCode() {
 
-    return id.hashCode();
-  }
+		return id.hashCode();
+	}
 
-  @Override
-  public String toString() {
+	@Override
+	public String toString() {
 
-    return "Trade [type=" + type + ", tradableAmount=" + tradableAmount + ", currencyPair=" + currencyPair + ", price=" + price + ", timestamp="
-        + timestamp + ", id=" + id + "]";
-  }
+		return "Trade [type=" + type + ", tradableAmount=" + tradableAmount + ", currencyPair=" + currencyPair + ", price=" + price + ", timestamp=" + timestamp + ", id=" + id
+				+ "]";
+	}
 
-  public static class Builder {
+	@Override
+	public int compareTo(Trade o) {
+		return this.getTimestamp().compareTo(o.getTimestamp());
+	}
 
-    private OrderType type;
-    private BigDecimal tradableAmount;
-    private CurrencyPair currencyPair;
-    private BigDecimal price;
-    private Date timestamp;
-    private String id;
+	public static class Builder {
 
-    public Builder() {
+		private OrderType type;
+		private BigDecimal tradableAmount;
+		private CurrencyPair currencyPair;
+		private BigDecimal price;
+		private Date timestamp;
+		private String id;
 
-    }
+		public Builder() {
 
-    public static Builder from(Trade trade) {
-      return new Builder().type(trade.getType()).tradableAmount(trade.getTradableAmount()).currencyPair(trade.getCurrencyPair()).price(trade.getPrice()).timestamp(trade.getTimestamp())
-          .id(trade.getId());
-    }
+		}
 
-    public Builder type(OrderType type) {
+		public static Builder from(Trade trade) {
+			return new Builder().type(trade.getType()).tradableAmount(trade.getTradableAmount()).currencyPair(trade.getCurrencyPair()).price(trade.getPrice())
+					.timestamp(trade.getTimestamp()).id(trade.getId());
+		}
 
-      this.type = type;
-      return this;
-    }
+		public Builder type(OrderType type) {
 
-    public Builder tradableAmount(BigDecimal tradableAmount) {
+			this.type = type;
+			return this;
+		}
 
-      this.tradableAmount = tradableAmount;
-      return this;
-    }
+		public Builder tradableAmount(BigDecimal tradableAmount) {
 
-    public Builder currencyPair(CurrencyPair currencyPair) {
+			this.tradableAmount = tradableAmount;
+			return this;
+		}
 
-      this.currencyPair = currencyPair;
-      return this;
-    }
+		public Builder currencyPair(CurrencyPair currencyPair) {
 
-    public Builder price(BigDecimal price) {
+			this.currencyPair = currencyPair;
+			return this;
+		}
 
-      this.price = price;
-      return this;
-    }
+		public Builder price(BigDecimal price) {
 
-    public Builder timestamp(Date timestamp) {
+			this.price = price;
+			return this;
+		}
 
-      this.timestamp = timestamp;
-      return this;
-    }
+		public Builder timestamp(Date timestamp) {
 
-    public Builder id(String id) {
+			this.timestamp = timestamp;
+			return this;
+		}
 
-      this.id = id;
-      return this;
-    }
+		public Builder id(String id) {
 
-    public Trade build() {
+			this.id = id;
+			return this;
+		}
 
-      return new Trade(type, tradableAmount, currencyPair, price, timestamp, id);
-    }
-  }
+		public Trade build() {
+
+			return new Trade(type, tradableAmount, currencyPair, price, timestamp, id);
+		}
+	}
 }

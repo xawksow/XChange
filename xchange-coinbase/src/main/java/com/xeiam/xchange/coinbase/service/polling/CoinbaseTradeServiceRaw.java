@@ -81,7 +81,6 @@ class CoinbaseTradeServiceRaw extends CoinbaseBasePollingService {
    * @throws IOException
    */
   public CoinbaseTransfers getCoinbaseTransfers() throws IOException {
-
     return getCoinbaseTransfers(null, null);
   }
 

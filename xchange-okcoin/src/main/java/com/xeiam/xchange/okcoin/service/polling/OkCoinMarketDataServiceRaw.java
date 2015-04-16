@@ -42,7 +42,7 @@ public class OkCoinMarketDataServiceRaw extends OkCoinBasePollingService {
   }
 
   public OkCoinDepth getDepth(CurrencyPair currencyPair) throws IOException {
-
+	   
     return okCoin.getDepth("1", OkCoinAdapters.adaptSymbol(currencyPair));
   }
 

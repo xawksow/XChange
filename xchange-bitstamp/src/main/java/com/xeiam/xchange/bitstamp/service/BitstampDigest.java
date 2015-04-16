@@ -25,7 +25,6 @@ public class BitstampDigest extends BaseParamsDigest {
    * @param apiKey @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
    */
   private BitstampDigest(String secretKeyBase64, String clientId, String apiKey) {
-
     super(secretKeyBase64, HMAC_SHA_256);
     this.clientId = clientId;
     this.apiKey = apiKey;

@@ -77,15 +77,15 @@ public final class AccountInfo {
    * @return The balance, or zero if not found
    */
   public BigDecimal getBalance(String currency) {
-
+	BigDecimal total = BigDecimal.ZERO;
     for (Wallet wallet : wallets) {
-      if (wallet.getCurrency().equals(currency)) {
-        return wallet.getBalance();
+      if (wallet.getCurrency().equals(currency) && !wallet.getDescription().equals("frozen")) {
+        total = total.add(wallet.getBalance());
       }
     }
 
     // Not found so treat as zero
-    return BigDecimal.ZERO;
+    return total;
   }
 
   @Override

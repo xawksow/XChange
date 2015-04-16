@@ -1,6 +1,7 @@
 package com.xeiam.xchange.cryptsy.service.polling;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.cryptsy.CryptsyAdapters;
@@ -12,6 +13,7 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
@@ -40,7 +42,10 @@ public class CryptsyMarketDataService extends CryptsyMarketDataServiceRaw implem
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException, ExchangeException {
-
+	  if(currencyPair.baseSymbol.equals("USD") || currencyPair.counterSymbol.equals("USD")){
+		  return new OrderBook(null, new ArrayList<LimitOrder>(), new ArrayList<LimitOrder>());
+	  }
+	  
     CryptsyOrderBookReturn orderBookReturnData = super.getCryptsyOrderBook(CryptsyCurrencyUtils.convertToMarketId(currencyPair));
 
     return CryptsyAdapters.adaptOrderBook(orderBookReturnData, currencyPair);

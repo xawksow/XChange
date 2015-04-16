@@ -51,6 +51,7 @@ public class BitKonanAdapters {
         .build();
   }
 
+ 
   public static OrderBook adaptOrderBook(BitKonanOrderBook bitKonanOrderBook) {
 
     // only BTCUSD available at BitKonan

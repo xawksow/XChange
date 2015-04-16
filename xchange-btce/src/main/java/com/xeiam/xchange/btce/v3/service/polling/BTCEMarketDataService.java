@@ -1,6 +1,7 @@
 package com.xeiam.xchange.btce.v3.service.polling;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.xeiam.xchange.Exchange;
@@ -51,6 +52,12 @@ public class BTCEMarketDataService extends BTCEMarketDataServiceRaw implements P
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
+	  //Ignore USD markets for now. This exchange is shady.
+	  if(currencyPair.baseSymbol.equals("USD") || currencyPair.counterSymbol.equals("USD")){
+		    return new OrderBook(null, new ArrayList<LimitOrder>(), new ArrayList<LimitOrder>());
+	  }
+	
+	  
     String pairs = com.xeiam.xchange.btce.v3.BTCEUtils.getPair(currencyPair);
     BTCEDepthWrapper btceDepthWrapper = null;
 

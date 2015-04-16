@@ -1,5 +1,6 @@
 package com.xeiam.xchange.dto;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -8,9 +9,14 @@ import com.xeiam.xchange.currency.CurrencyPair;
 /**
  * Data object representing an order
  */
-public class Order {
+public class Order implements Serializable {
 
-  public enum OrderType {
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1244425397660073012L;
+
+public enum OrderType {
 
     /**
      * Buying order (you're making an offer)
@@ -127,12 +133,6 @@ public class Order {
     }
     final Order other = (Order) obj;
     if (this.type != other.type) {
-      return false;
-    }
-    if ((this.tradableAmount == null) ? (other.tradableAmount != null) : this.tradableAmount.compareTo(other.tradableAmount) != 0) {
-      return false;
-    }
-    if ((this.currencyPair == null) ? (other.currencyPair != null) : !this.currencyPair.equals(other.currencyPair)) {
       return false;
     }
     if ((this.id == null) ? (other.id != null) : !this.id.equals(other.id)) {

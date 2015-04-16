@@ -1,6 +1,7 @@
 package com.xeiam.xchange.okcoin.service.polling;
 
 import java.io.IOException;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -90,7 +91,7 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements Polling
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
     long orderId = trade(OkCoinAdapters.adaptSymbol(limitOrder.getCurrencyPair()), limitOrder.getType() == OrderType.BID ? "buy" : "sell",
-        limitOrder.getLimitPrice().toPlainString(), limitOrder.getTradableAmount().toPlainString()).getOrderId();
+        limitOrder.getLimitPrice().setScale(8, RoundingMode.HALF_DOWN).stripTrailingZeros().toPlainString(), limitOrder.getTradableAmount().setScale(8, RoundingMode.HALF_DOWN).stripTrailingZeros().toPlainString()).getOrderId();
     return String.valueOf(orderId);
   }
 
